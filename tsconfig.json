@@ -3,6 +3,9 @@
     "types": ["node", "jest"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "resolvePackageJsonExports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
