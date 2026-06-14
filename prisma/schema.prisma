@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+// # 스키마 수정 후 DB 반영
+// pnpm prisma migrate dev --name xxx
+// migrate dev -> 마이그레이션 파일 생성 + DB에 반영 + prisma client 재생성
+// migrate deploy -> 마이그레이션 파일 생성 없이 DB에 반영
+
+// # Prisma Client 재생성
+// pnpm prisma generate
+
+// # DB 상태를 스키마에 반영
+// pnpm prisma db pull
+
+// # 스키마를 바로 DB에 반영(마이그레이션 없음)
+// pnpm prisma db push
+
+
+generator client {
+  provider = "prisma-client"
+  output   = "../prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Test {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+}
+
+
+
+
+
+
