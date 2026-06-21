@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 export class CronService {
   constructor(private readonly prisma: PrismaService) {}
 
-  studyXlsxUpdateData() {
+  async studyXlsxUpdateData() {
     console.log('=================== 엑셀 데이터 업데이트 크론잡 ===================');
 
     const workbook = XLSX.readFile('miraen-sentences-v1.xlsx');
@@ -30,7 +30,14 @@ export class CronService {
 
       // prisma;
 
-      console.log('sheetObject', sheetObject);
+      // console.log('sheetObject', sheetObject);
+
+      const result = await this.prisma.$queryRaw<[{ search_path: string }]>`SHOW search_path`;
+      console.log(result);
+
+      const data = await this.prisma.training_sentence.findMany();
+
+      console.log('data', data);
     }
   }
 }
