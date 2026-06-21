@@ -17,24 +17,25 @@
 // # 스키마를 바로 DB에 반영(마이그레이션 없음)
 // pnpm prisma db push
 
-
 generator client {
-  provider = "prisma-client"
-  output   = "../prisma/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model Test {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
+model training_sentence {
+  id                     Int      @id @default(autoincrement())
+  difficulty             Int // 난이도
+  sentence               String // 문장 (원문)
+  recommended_chunking   String // 권장 청크 분할
+  expected_failure_point String // 예상 실패 포인트 (리듬 끊김 위치)
+  polysemy               String // 다의어
+  word_count             Int // 단어 수
+  diagnostic_tags        String[] // 진단태그
+  created_at             DateTime @default(now())
+  updated_at             DateTime @updatedAt
 }
-
-
-
-
-
-

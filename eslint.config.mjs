@@ -35,13 +35,12 @@ export default tseslint.config(
           patterns: [
             {
               group: ['./*', '../*'],
-              message:
-                'Use absolute imports from @/* instead of relative paths.',
+              message: 'Use absolute imports from @/* instead of relative paths.',
             },
           ],
         },
       ],
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
-  },
+  }
 );
