@@ -39,3 +39,12 @@ model training_sentence {
   created_at             DateTime @default(now())
   updated_at             DateTime @updatedAt
 }
+
+model diagnostic_tag {
+  id          Int      @id @default(autoincrement())
+  category    String // 진단태그 카테고리
+  tag_name    String // 진단태그 이름
+  description String // 진단태그 설명
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}

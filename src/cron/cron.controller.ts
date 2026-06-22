@@ -8,8 +8,13 @@ export class CronController {
 
   // 20초 크론 (개발용)
   // @Cron('*/1 * * * *')
-  @Cron('*/20 * * * * *')
+  // @Cron('*/10 * * * * *')
   studyXlsxUpdateData() {
-    this.cronService.studyXlsxUpdateData();
+    return this.cronService.studyXlsxUpdateData();
+  }
+
+  @Cron('*/10 * * * * *')
+  diagnosticTagUpdateData() {
+    return this.cronService.diagnosticTagUpdateData();
   }
 }
