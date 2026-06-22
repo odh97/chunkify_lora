@@ -1,4 +1,4 @@
-import { worksheetType } from '@/cron/cron.type';
+import { WorksheetType } from '@/cron/cron.type';
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import * as XLSX from 'xlsx';
@@ -17,7 +17,7 @@ export class CronService {
 
     const sheetData = XLSX.utils.sheet_to_json(worksheet);
 
-    for (const row of sheetData as worksheetType[]) {
+    for (const row of sheetData as WorksheetType[]) {
       const sheetObject = {
         difficulty: row['difficulty'],
         sentence: row['sentence'],

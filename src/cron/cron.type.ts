@@ -1,4 +1,4 @@
-export interface worksheetType {
+export interface WorksheetType {
   difficulty: string;
   sentence: string;
   recommendedChunk: string;
