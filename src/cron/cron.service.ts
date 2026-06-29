@@ -1,6 +1,6 @@
 import { DIFFICULTY_LEVEL } from '@/cron/common/cron.data';
-import { WorksheetType } from '@/cron/common/cron.type';
-import { training_sentence } from '@/prisma/generated/prisma/client';
+import { DiagnosticTagType, WorksheetType } from '@/cron/common/cron.type';
+import { diagnostic_tag, training_sentence } from '@/prisma/generated/prisma/client';
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import * as XLSX from 'xlsx';
@@ -14,13 +14,13 @@ export class CronService {
 
     const workbook = XLSX.readFile('miraen-sentences-v1.xlsx');
 
-    const sheetName = workbook.SheetNames[1];
+    const sheetName = workbook.SheetNames[2];
     const worksheet = workbook.Sheets[sheetName];
 
     const sheetData = XLSX.utils.sheet_to_json(worksheet);
 
     for (const row of sheetData as WorksheetType[]) {
-      const sheetDifficulty = row['difficulty'] as '하' | '중' | '상';
+      const sheetDifficulty = row['difficulty'];
       const difficultyNumber = DIFFICULTY_LEVEL[sheetDifficulty];
 
       const tags = row['diagnosticTag'];
@@ -44,6 +44,7 @@ export class CronService {
     console.log('=================== 엑셀 데이터 업데이트 크론잡 완료 ===================');
   }
 
+  //  진단 태그 배열 처리 / (내부 함수 - studyXlsxUpdateData)
   private diagnosticTagsArraySplit(tags?: string | null): string[] {
     if (!tags) return [];
 
@@ -77,16 +78,34 @@ export class CronService {
     return tagsSliceFilterList;
   }
 
-  diagnosticTagUpdateData() {
+  // 진단 태그 데이터 업데이트
+  async diagnosticTagUpdateData() {
     console.log('=================== 진단태그 데이터 업데이트 크론잡 ===================');
 
     const workbook = XLSX.readFile('miraen-sentences-v1.xlsx');
 
-    const sheetName = workbook.SheetNames[1];
+    const sheetName = workbook.SheetNames[3];
     const worksheet = workbook.Sheets[sheetName];
 
     const sheetData = XLSX.utils.sheet_to_json(worksheet);
 
-    return '';
+    for (const row of sheetData as DiagnosticTagType[]) {
+      const sheetObject: Omit<diagnostic_tag, 'id' | 'created_at' | 'updated_at'> = {
+        category: row['category'],
+        tag_name: row['tagName'],
+        description: row['description'],
+      };
+
+      await this.prisma.diagnostic_tag.create({
+        data: sheetObject,
+      });
+    }
+
+    console.log('=================== 진단태그 데이터 업데이트 크론잡 완료 ===================');
+  }
+
+  async loraTraining() {
+    // {"prompt": "다음 청크를 평가해줘: [청크 내용]", "completion": "Good - 문맥이 자연스럽게 이어짐"}
+    // {"prompt": "다음 청크를 평가해줘: [청크 내용]", "completion": "Bad - 문장이 중간에 잘림"}
   }
 }

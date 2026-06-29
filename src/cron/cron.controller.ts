@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
+// import { Cron } from '@nestjs/schedule';
 import { CronService } from '@/cron/cron.service';
 
 @Controller('cron')
@@ -13,8 +13,13 @@ export class CronController {
     return this.cronService.studyXlsxUpdateData();
   }
 
-  @Cron('*/10 * * * * *')
+  // @Cron('*/10 * * * * *')
   diagnosticTagUpdateData() {
     return this.cronService.diagnosticTagUpdateData();
+  }
+
+  // @Cron('*/10 * * * * *')
+  loraTraining() {
+    return this.cronService.loraTraining();
   }
 }
