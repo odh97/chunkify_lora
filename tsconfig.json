@@ -4,7 +4,8 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@sendScript/*": ["./scripts/*"]
     },
     "resolvePackageJsonExports": true,
     "esModuleInterop": true,
